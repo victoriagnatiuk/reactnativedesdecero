@@ -6,107 +6,83 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {Component} from 'react';
+import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+class App extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      counter: 0,
+    };
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+    this.handleUp = this.handleUp.bind(this);
+    this.handleDown = this.handleDown.bind(this);
+  }
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  handleUp() {
+    const {counter: ct} = this.state;
+    this.setState({counter: ct + 1});
+  }
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  handleDown() {
+    const {counter: ct} = this.state;
+    this.setState({counter: ct - 1},
+      () => {
+        if ( (ct-1) < 0) {
+          this.setState({counter: 0})
+        }
+      });
+  }
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+  render() {
+    const { counter } = this.state;
+    return (
+      <View style={styles.container}>
+        <View style={styles.subcontainer}>
+          <TouchableOpacity style={styles.button} onPress={this.handleDown}>
+            <Text style={styles.text}>-</Text>
+          </TouchableOpacity>
+          <View style={styles.button}>
+            <Text style={styles.text}>{counter}</Text>
+          </View>
+          <TouchableOpacity style={styles.button} onPress={this.handleUp}>
+            <Text style={styles.text}>+</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#182C61'
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  subcontainer: {
+    width: '100%',
+    height: 60,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    flexDirection: 'row',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  button: {
+    height: 60,
+    width: 60,
+    backgroundColor: 'white', 
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  highlight: {
-    fontWeight: '700',
-  },
+  text: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#2C3A47',
+    alignItems: 'center'
+  }
 });
 
 export default App;
