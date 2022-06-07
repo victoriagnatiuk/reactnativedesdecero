@@ -7,7 +7,8 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
+import Button from './components/button';
 
 class App extends Component {
   constructor(props) {
@@ -41,15 +42,13 @@ class App extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.subcontainer}>
-          <TouchableOpacity style={styles.button} onPress={this.handleDown}>
-            <Text style={styles.text}>-</Text>
-          </TouchableOpacity>
+          <Button action={this.handleDown}></Button>
+        
           <View style={styles.button}>
             <Text style={styles.text}>{counter}</Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={this.handleUp}>
-            <Text style={styles.text}>+</Text>
-          </TouchableOpacity>
+
+          <Button label="+" action={this.handleUp}></Button>
         </View>
       </View>
     );
