@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
+
+
+//   // Se ejecuta cada vez que hay un cambio
+//   shouldComponentUpdate(nextProps, nextState) {
+//     console.log(shouldComponentUpdate);
+//     // Devuelve si el componente se tiene que renderizar
+//     return true;
+//   }
 
 function Button(props) {
     const { label, action } = props;
@@ -15,9 +23,9 @@ Button.defaultProps = {
     label: "?"
 }
 
-Button.PropTypes = {
-    label: PropTypes.string,
-    action: PropTypes.func.isRequired
+Button.propTypes = {
+    label: propTypes.string,
+    action: propTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({

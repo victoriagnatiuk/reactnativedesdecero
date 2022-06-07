@@ -18,8 +18,19 @@ class App extends Component {
       counter: 0,
     };
 
+    console.log('First');
+
     this.handleUp = this.handleUp.bind(this);
     this.handleDown = this.handleDown.bind(this);
+  }
+
+  UNSAFE_componentWillMount() {
+    console.log('Second');
+  }
+
+  componentDidMount() {
+    // Peticiones asincronas 
+    console.log('Fourth');
   }
 
   handleUp() {
@@ -38,6 +49,8 @@ class App extends Component {
   }
 
   render() {
+    console.log('Third and repeat');
+
     const { counter } = this.state;
     return (
       <View style={styles.container}>
