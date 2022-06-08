@@ -6,14 +6,15 @@
  * @flow strict-local
  */
 
-import React, {Component} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import ActionButton from './components/actionButton';
 import Button from './components/button';
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       counter: 0,
     };
@@ -21,33 +22,29 @@ class App extends Component {
     this.handleUp = this.handleUp.bind(this);
     this.handleDown = this.handleDown.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    this.handlePlusTen = this.handlePlusTen.bind(this);
   }
 
   handleUp() {
-    const {counter: ct} = this.state;
-    this.setState({counter: ct + 1});
+    const { counter: ct } = this.state;
+    this.setState({ counter: ct + 1 });
   }
 
   handleDown() {
-    const {counter: ct} = this.state;
-    this.setState({counter: ct - 1},
-      () => {
-        if ( (ct-1) < 0) {
-          this.setState({counter: 0})
-        }
-      });
+    const { counter: ct } = this.state;
+    if ((ct - 1) >= 0) {
+      this.setState({ counter: ct - 1 });
+    }
   }
 
   handleReset() {
-    this.setState({counter: 0})
+    this.setState({ counter: 0 });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  handlePlusTen() {
+    const plusNumber = 10;
     const { counter } = this.state;
-    if (nextState.counter == counter) {
-      return false;
-    }
-    return true;
+    this.setState({counter: counter + plusNumber});
   }
 
   render() {
@@ -57,8 +54,8 @@ class App extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.subcontainer}>
-          <Button action={this.handleDown}></Button>
-        
+          <Button label='-' action={this.handleDown}></Button>
+
           <View style={styles.button}>
             <Text style={styles.text}>{counter}</Text>
           </View>
@@ -66,12 +63,11 @@ class App extends Component {
           <Button label="+" action={this.handleUp}></Button>
         </View>
 
-        <View style = {styles.subcontainer2}>
-          <TouchableOpacity style = {styles.resetButton} onPress = {this.handleReset}>
-            <Text style={styles.text}>
-              Reset
-            </Text>
-          </TouchableOpacity>
+        <View style={styles.subcontainer2}>
+          <ActionButton
+            reset={this.handleReset}
+            plus={this.handlePlusTen}
+          ></ActionButton>
         </View>
       </View>
     );
@@ -96,14 +92,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    marginTop: 20
+    justifyContent: 'space-between',
+    paddingHorizontal: 60,
+    marginTop: 20,
+    flexDirection: 'row'
   },
   button: {
     height: 60,
     width: 60,
-    backgroundColor: 'white', 
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -112,12 +109,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#2C3A47',
     alignItems: 'center'
-  },
-  resetButton: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    width: 140,
-    height: 60
   }
 });
 

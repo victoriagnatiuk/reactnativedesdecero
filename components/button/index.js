@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import propTypes from 'prop-types';
 
-
-//   // Se ejecuta cada vez que hay un cambio
-//   shouldComponentUpdate(nextProps, nextState) {
-//     console.log(shouldComponentUpdate);
-//     // Devuelve si el componente se tiene que renderizar
-//     return true;
-//   }
-
 function Button(props) {
     const { label, action } = props;
     return (
