@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import Button from './components/button';
 
 class App extends Component {
@@ -18,19 +18,9 @@ class App extends Component {
       counter: 0,
     };
 
-    console.log('First');
-
     this.handleUp = this.handleUp.bind(this);
     this.handleDown = this.handleDown.bind(this);
-  }
-
-  UNSAFE_componentWillMount() {
-    console.log('Second');
-  }
-
-  componentDidMount() {
-    // Peticiones asincronas 
-    console.log('Fourth');
+    this.handleReset = this.handleReset.bind(this);
   }
 
   handleUp() {
@@ -48,8 +38,20 @@ class App extends Component {
       });
   }
 
+  handleReset() {
+    this.setState({counter: 0})
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { counter } = this.state;
+    if (nextState.counter == counter) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
-    console.log('Third and repeat');
+    console.log('Rendering');
 
     const { counter } = this.state;
     return (
@@ -62,6 +64,14 @@ class App extends Component {
           </View>
 
           <Button label="+" action={this.handleUp}></Button>
+        </View>
+
+        <View style = {styles.subcontainer2}>
+          <TouchableOpacity style = {styles.resetButton} onPress = {this.handleReset}>
+            <Text style={styles.text}>
+              Reset
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -82,6 +92,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: 'row',
   },
+  subcontainer2: {
+    width: '100%',
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    marginTop: 20
+  },
   button: {
     height: 60,
     width: 60,
@@ -94,6 +112,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#2C3A47',
     alignItems: 'center'
+  },
+  resetButton: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    width: 140,
+    height: 60
   }
 });
 
